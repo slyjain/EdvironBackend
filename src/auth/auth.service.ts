@@ -14,7 +14,8 @@ export class AuthService {
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findByEmail(email);
 
-    if (user && await bcrypt.compare(password, user.password)) {
+    // if (user && await bcrypt.compare(password, user.password)) {
+    if(user&&password==user.password){
       // Return the user object without the password field
       const { password, ...result } = user;  // Remove password from the result
       return result;  // Only return the sanitized user object
