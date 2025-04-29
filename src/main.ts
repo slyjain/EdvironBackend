@@ -14,6 +14,7 @@ async function bootstrap() {
   );
   console.log("Running main.ts");
   console.log(process.env.MONGO_URI);
+  console.log(process.env.JWT_SECRET);
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

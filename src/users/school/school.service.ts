@@ -16,4 +16,12 @@ export class SchoolService {
     async findAll(): Promise<School[]> {
         return this.schoolModel.find().exec();
     }
+    // Corrected findFeeBySchoolId method
+    async findFeeBySchoolId(schoolId: string): Promise<number> {
+        const school = await this.schoolModel.findById(schoolId); // Use the injected model to find the school by its ID
+        if (!school) {
+            throw new Error('School not found');
+        }
+        return school.monthly_fees; // Assuming the school object has a fee property
+    }
 }

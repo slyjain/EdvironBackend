@@ -14,6 +14,7 @@ import { DatabaseModule } from './database/database.module';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './auth/roles.guard';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -21,13 +22,14 @@ import { RolesGuard } from './auth/roles.guard';
     AuthModule,
     StudentModule,
     SchoolModule,
-    // AdminModule,
+    AdminModule,
     // OrdersModule,
     // OrderStatusModule,
     // WebhookLogsModule,
     // DatabaseModule,
-    // JwtModule.register({ secret: process.env.JWT_SECRET, signOptions: { expiresIn: '7d' } }),
-    MongooseModule.forRoot(process.env.MONGO_URI!),  // Use the environment variable for Mongo URI
+    JwtModule.register({ secret: process.env.JWT_SECRET!, signOptions: { expiresIn: '1h' } }),
+    MongooseModule.forRoot(process.env.MONGO_URI!),
+    PaymentModule,  // Use the environment variable for Mongo URI
   ],
   controllers: [AppController],
   providers: [

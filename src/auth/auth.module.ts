@@ -12,11 +12,12 @@ import { SchoolModule } from 'src/users/school/school.module';
 
 @Module({
   imports: [
+    // console.log(process.env.JWT_SECRET),
     // PassportModule,
-    // JwtModule.register({
-    //   secret: process.env.JWT_SECRET,
-    //   signOptions: { expiresIn: '7d' },
-    // }),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET!,
+      signOptions: { expiresIn: '7d' },
+    }),
     AdminModule,
     StudentModule,
     SchoolModule,
@@ -24,7 +25,7 @@ import { SchoolModule } from 'src/users/school/school.module';
   ],
   providers: [
     AuthService, 
-    // JwtStrategy
+    JwtStrategy
   ],
   controllers: [AuthController],
 })
