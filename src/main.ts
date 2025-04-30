@@ -7,9 +7,9 @@ async function bootstrap() {
   app.enableCors();
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Strip unknown fields
-      forbidNonWhitelisted: true, // Throw error if unknown field
-      transform: true, // Auto-transform payloads to DTO classes
+      whitelist: true, 
+      forbidNonWhitelisted: true, 
+      transform: true,
     }),
   );
   console.log("Running main.ts");

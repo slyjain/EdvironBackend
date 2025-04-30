@@ -1,11 +1,16 @@
-import { Controller, Post, Body, Get, Query ,Param} from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Param, UseGuards } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { Types } from 'mongoose';
+import { Roles } from 'src/common/decorators/roles.decorators';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
+
 
 @Controller('payment')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) { }
-
+  @UseGuards(JwtAuthGuard)
+  // @Roles('student')
   @Post('create-request')
   async createPaymentRequest(
     @Body()
@@ -113,10 +118,33 @@ export class PaymentController {
   async getTransactionsBySchool(@Param('schoolId') schoolId: string) {
     return await this.paymentService.fetchTransactionsBySchool(schoolId);
   }
+  @Get('transactions/:studentId')
+  async getTransactionsByStudent(@Param('studentId') studentId: string) {
+    return await this.paymentService.fetchTransactionsByStudent(studentId);
+  }
+
   @Get('transaction-status/:custom_order_id')
-async getAndUpdateTransactionStatus(@Param('custom_order_id') customOrderId: string) {
-  return this.paymentService.fetchAndUpdateTransactionStatus(customOrderId);
-}
+  async getAndUpdateTransactionStatus(@Param('custom_order_id') customOrderId: string) {
+    console.log(customOrderId);
+    return this.paymentService.fetchAndUpdateTransactionStatus(customOrderId);
+  }
+  @Get('transactions')
+  async getAllTransactionsWithQuery(
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+    @Query('sort') sort = 'payment_time',
+    @Query('order') order: 'asc' | 'desc' = 'desc'
+  ) {
+
+    const response = await this.paymentService.fetchAllTransactions(
+      Number(page),
+      Number(limit),
+      sort,
+      order
+    );
+    console.log(response);
+    return response;
+  }
 
 }
 

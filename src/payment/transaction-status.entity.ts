@@ -16,7 +16,7 @@ export class TransactionStatus extends Document {
   payment_mode: string;
 
   @Prop({ required: true })
-  payment_details: string; // Store as stringified JSON
+  payment_details: string; 
 
   @Prop({ required: true })
   bank_reference: string;

@@ -4,6 +4,7 @@ import { PaymentService } from './payment.service';
 import { TransactionSchema, Transaction } from './transaction.entity';
 import { TransactionStatus, TransactionStatusSchema } from './transaction-status.entity';
 import { MongooseModule } from '@nestjs/mongoose';
+import { WebhookLogsModule } from 'src/webhook-logs/webhook-logs.module';
 
 
 @Module({
@@ -12,6 +13,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       { name: Transaction.name, schema: TransactionSchema },
       { name: TransactionStatus.name, schema: TransactionStatusSchema },
     ]),
+    WebhookLogsModule
   ],
   controllers: [PaymentController],
   providers: [PaymentService]

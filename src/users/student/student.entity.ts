@@ -8,16 +8,16 @@ export class Student extends Document {
     name: string;
 
     @Prop({ required: true, unique: true })
-    email: string;  // For student login
+    email: string; 
 
     @Prop({ required: true })
     phone_number: string;
 
     @Prop({ type: Types.ObjectId, ref: 'School', required: true })
-    school_id: Types.ObjectId;  // Reference to School _id
+    school_id: Types.ObjectId;  
 
     @Prop({ required: true })
-    password: string;  // For student login
+    password: string; 
 }
 
 export const StudentSchema = SchemaFactory.createForClass(Student);

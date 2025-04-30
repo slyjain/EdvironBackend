@@ -13,10 +13,10 @@ export class School extends Document {
   monthly_fees: number;
 
   @Prop({ required: true, unique: true })
-  email: string;  // For school login
+  email: string; 
 
   @Prop({ required: true })
-  password: string;  // For school login
+  password: string;  
 }
 
 export const SchoolSchema = SchemaFactory.createForClass(School);

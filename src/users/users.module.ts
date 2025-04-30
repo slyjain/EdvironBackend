@@ -14,6 +14,6 @@ import { Admin, AdminSchema } from './admin/admin.entity';
     ]),
   ],
   providers: [UsersService],
-  exports: [UsersService],  // Export UsersService so it can be used in other modules (e.g. AuthModule)
+  exports: [UsersService],  
 })
 export class UsersModule {}

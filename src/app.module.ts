@@ -16,26 +16,19 @@ import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),  // Add this line to load the config globally
+    ConfigModule.forRoot({ isGlobal: true }),  
     AuthModule,
     StudentModule,
     SchoolModule,
     AdminModule,
-    // OrdersModule,
-    // OrderStatusModule,
-    // WebhookLogsModule,
-    // DatabaseModule,
     JwtModule.register({ secret: process.env.JWT_SECRET!, signOptions: { expiresIn: '1h' } }),
     MongooseModule.forRoot(process.env.MONGO_URI!),
-    PaymentModule,  // Use the environment variable for Mongo URI
+    PaymentModule, 
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RolesGuard,
-    // },
+   
   ],
 })
 export class AppModule {}

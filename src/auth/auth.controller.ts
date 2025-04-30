@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { AdminService } from '../users/admin/admin.service';
 import { SchoolService } from '../users/school/school.service';
 import { StudentService } from '../users/student/student.service';
-import { UsersService } from '../users/users.service';  // For checking if user already exists
+import { UsersService } from '../users/users.service'; 
 import { StudentSignupDto } from './dto/student-signup.dto';
 import { TrusteeSignupDto } from './dto/trustee-signup.dto';
 import { AdminSignupDto } from './dto/admin-signup.dto';
