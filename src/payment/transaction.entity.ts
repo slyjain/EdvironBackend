@@ -3,7 +3,7 @@ import { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Transaction extends Document {
-  @Prop({ type: Types.ObjectId, required: true })
+  @Prop({ type: Types.ObjectId, required: true ,index:true})
   school_id: Types.ObjectId | string;
 
   @Prop({
@@ -20,7 +20,7 @@ export class Transaction extends Document {
     email: string;
   };
 
-  @Prop({ required: true })
+  @Prop({ required: true,index:true })
   collect_request_id: string;
 }
 

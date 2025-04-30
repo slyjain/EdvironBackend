@@ -63,12 +63,12 @@ export class AuthController {
       console.log("existing user toh nahi hai")
       const schoolData = {
         ...trusteeData,
-        trustee: trusteeData.email, // setting trustee field as email
+        trustee: trusteeData.email, 
       }
       await this.schoolService.create(schoolData);
     }
     else if (role === 'admin') {
-      console.log("role identified as admin")
+      // console.log("role identified as admin")
       const adminData = body as AdminSignupDto;
       const existingUser = await this.usersService.findByEmail(adminData.email);
       if (existingUser) {

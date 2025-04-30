@@ -3,7 +3,7 @@ import { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class TransactionStatus extends Document {
-  @Prop({ type: Types.ObjectId, ref: 'Transaction', required: true })
+  @Prop({ type: Types.ObjectId, ref: 'Transaction', required: true ,index:true})
   collect_id: Types.ObjectId;
 
   @Prop({ required: true })

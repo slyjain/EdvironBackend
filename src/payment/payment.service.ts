@@ -4,7 +4,7 @@ import axios from "axios"
 import { Types, Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Transaction } from './transaction.entity';
-import { TransactionStatus } from './transaction-status.entity'; // Adjust the path as needed
+import { TransactionStatus } from './transaction-status.entity';
 import { WebhookLogsService } from '../webhook-logs/webhook-logs.service';
 import { ConfigService } from '@nestjs/config';
 @Injectable()
@@ -20,7 +20,7 @@ export class PaymentService {
     @InjectModel(TransactionStatus.name)
     private readonly transactionStatusModel: Model<TransactionStatus>,
   ) {
-    // Initialize secretKey and apikey inside the constructor
+    
     this.secretKey = this.configService.get<string>('pg_key')!;
     this.apikey = this.configService.get<string>('API_KEY')!;
   }
@@ -36,7 +36,7 @@ export class PaymentService {
       amount: amount.toString(),
       callback_url: callback_url,
     };
-    console.log(payload)
+    // console.log(payload)
     const sign = jwt.sign(payload, this.secretKey);
 
     try {
@@ -63,8 +63,8 @@ export class PaymentService {
         school_id: school_id,
         payload: response.data,
       });
-      console.log(response.data);
-      // Save transaction to your DB
+      // console.log(response.data);
+     
       await this.transactionModel.create({
         school_id: new Types.ObjectId(school_id),
         student_info: {
@@ -104,7 +104,7 @@ export class PaymentService {
         payload: response.data,
       });
 
-      console.log("Response data :", response.data);
+      // console.log("Response data :", response.data);
       return response.data;
     } catch (err) {
       throw new Error(`Payment status fetch failed: ${err.response?.data?.message || err.message}`);
@@ -112,8 +112,8 @@ export class PaymentService {
   }
 
   async handleCallback(collectRequestId: string, status: string) {
-    // You can write to DB, update order status, etc.
-    console.log(`Updating order ${collectRequestId} with status: ${status}`);
+    
+    // console.log(`Updating order ${collectRequestId} with status: ${status}`);
   }
 
   async createTransaction(data: {
@@ -147,30 +147,30 @@ export class PaymentService {
     return await this.transactionStatusModel.aggregate([
       {
         $lookup: {
-          from: 'transactions',  // 'transactions' is the collection name of the Transaction model
-          localField: 'collect_id', // Field in TransactionStatus that references Transaction
-          foreignField: '_id',  // Field in Transaction that this will be matched with
+          from: 'transactions',
+          localField: 'collect_id',
+          foreignField: '_id',  
           as: 'transaction',
         },
       },
       {
-        $unwind: '$transaction', // Flatten the result of $lookup (as we expect only one transaction)
+        $unwind: '$transaction', 
       },
       {
         $match: {
-          'transaction.student_info.id': studentId, // Match the student ID from the transaction's student_info
+          'transaction.student_info.id': studentId, 
         },
       },
       {
         $project: {
-          amount: '$transaction_amount',  // The order amount from the TransactionStatus schema
-          status: 1,  // The status from the TransactionStatus schema
-          payment_time: 1,  // The payment time from the TransactionStatus schema
+          amount: '$transaction_amount',  
+          status: 1,  
+          payment_time: 1,  
         },
       },
       {
         $sort: {
-          payment_time: -1, // Sort by payment time in descending order
+          payment_time: -1, 
         },
       },
     ]);
@@ -181,7 +181,7 @@ export class PaymentService {
   async verifyPaymentStatus(collect_request_id: string, school_id: string) {
     try {
       const status = await this.checkPaymentStatus(collect_request_id, school_id);
-      console.log("Verified payment status:", status);
+      // console.log("Verified payment status:", status);
       return status;
     } catch (err) {
       throw new Error(`Failed to verify payment status: ${err.message}`);
@@ -267,10 +267,10 @@ export class PaymentService {
     ]);
   }
   async fetchAndUpdateTransactionStatus(customOrderId: string) {
-    console.log(customOrderId);
+    // console.log(customOrderId);
 
     const transaction = await this.transactionModel.findOne({ collect_request_id: customOrderId });
-    console.log(transaction);
+    // console.log(transaction);
 
     if (!transaction) {
       throw new Error('Transaction not found');
@@ -282,7 +282,7 @@ export class PaymentService {
       school_id: school_id.toString(),
       collect_request_id: customOrderId,
     };
-    console.log(payload);
+    // console.log(payload);
 
     const sign = jwt.sign(payload, this.secretKey); // JWT-based signing
 
@@ -300,7 +300,7 @@ export class PaymentService {
         payload: response.data,
       });
       const data = response.data;
-      console.log("response data:", data);
+      // console.log("response data:", data);
 
       const paymentTime = new Date(data.payment_time);
       const isValidDate = !isNaN(paymentTime.getTime()) ? paymentTime : null;  // Check if date is valid
@@ -317,7 +317,7 @@ export class PaymentService {
         payment_time: isValidDate,  // Set valid date or null
       };
 
-      console.log(updatePayload);
+      // console.log(updatePayload);
 
       
       const updatedTransactionStatus = await this.transactionStatusModel.findOneAndUpdate(
